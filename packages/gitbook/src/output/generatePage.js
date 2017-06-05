@@ -18,6 +18,7 @@ const callPageHook = require('./callPageHook');
  */
 function generatePage(output, page) {
     const book = output.getBook();
+    const logger = book.getLogger();
     const engine = createTemplateEngine(output);
 
     return timing.measure(
@@ -26,6 +27,7 @@ function generatePage(output, page) {
         .then((resultPage) => {
             const file = resultPage.getFile();
             const { path: filePath, parser } = file;
+            logger.info.ln(‘Parsing: ’ + filePath);
             const context = JSONUtils.encodeState(output, resultPage);
 
             if (!parser) {
